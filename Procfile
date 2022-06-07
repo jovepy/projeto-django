@@ -1,1 +1,1 @@
-web: gunicorn jovepy-django.wsgi
+web: gunicorn project.wsgi
