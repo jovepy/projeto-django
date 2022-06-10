@@ -1,12 +1,12 @@
 from django.shortcuts import render
 import pandas as pd
 import numpy as np
-from pathlib import Path
+
 import requests
 from datetime import date, timedelta
 
 def consult_historic():
-    dates = pd.date_range(date.today()-timedelta(180), date.today(), freq='MS') 
+    dates = pd.date_range(date.today()-timedelta(120), date.today(), freq='MS') 
     serie = pd.DataFrame()
     
     for DATE in dates:
@@ -25,7 +25,7 @@ def consult_historic():
             print(e)
     serie = serie.groupby(['CNPJ_FUNDO','DT_COMPTC']).last()
     serie = serie.loc[serie['VL_PATRIM_LIQ'] >0]
-    serie = serie.loc[serie['NR_COTST'] > 1000]
+    serie = serie.loc[serie['NR_COTST'] > 1500]
     serie = serie.loc[serie['TP_FUNDO'] == 'FI']
     return(serie)
 
@@ -46,8 +46,8 @@ def structure_data():
     var_dia = df_estruturado.pct_change().fillna(0)
     var_acum = (1+var_dia).cumprod()-1
     
-    var_longo = (1+var_dia).rolling(30).apply(np.prod).mean()-1
-    std_longo = (1+var_dia).rolling(30).apply(np.prod).std()-1
+    var_longo = (1+var_dia).rolling(15).apply(np.prod).mean()-1
+    std_longo = (1+var_dia).rolling(15).apply(np.prod).std()-1
    
     aux = pd.DataFrame(var_longo)
     aux = aux.loc[aux[0] > 0]
