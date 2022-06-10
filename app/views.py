@@ -35,7 +35,7 @@ def structure_data():
     df_estruturado = pd.DataFrame()
    
     for cnpj in df.index.get_level_values(0).drop_duplicates():
-        if len(df.loc[cnpj]) >100:
+        if len(df.loc[cnpj]) >75:
             aux = df.loc[cnpj]
             aux = aux['VL_PATRIM_LIQ']/aux['NR_COTST']    
             
