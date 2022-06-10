@@ -1,4 +1,3 @@
-from django.shortcuts import render
 import pandas as pd
 import numpy as np
 from pathlib import Path
@@ -65,12 +64,3 @@ def structure_data():
     IS = IS.sort_values().loc[IS>0]
     var_acum = var_acum.T.loc[IS.index].T    
     return (IS,var_acum) #somente retorna os com sharpe positivo
-
-
-# Create your views here.
-def home(request):
-    sharpe, historic = structure_data()
-    data = {}
-    data['sharpe'] = sharpe
-    data['historic'] = historic
-    return render(request, 'index.html',data)
