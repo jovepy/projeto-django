@@ -1,7 +1,6 @@
 from django.shortcuts import render
 import pandas as pd
 import numpy as np
-
 import requests
 from datetime import date, timedelta
 
@@ -35,7 +34,7 @@ def structure_data():
     df_estruturado = pd.DataFrame()
    
     for cnpj in df.index.get_level_values(0).drop_duplicates():
-        if len(df.loc[cnpj]) >75:
+        if len(df.loc[cnpj]) >50:
             aux = df.loc[cnpj]
             aux = aux['VL_PATRIM_LIQ']/aux['NR_COTST']    
             
@@ -69,8 +68,12 @@ def structure_data():
 
 # Create your views here.
 def home(request):
+    return render(request, 'index.html')
+
+def assessor(request):
     sharpe, historic = structure_data()
     data = {}
-    data['sharpe'] = sharpe
-    data['historic'] = historic
-    return render(request, 'index.html',data)
+    data['CNPJ'] = list(sharpe.index())
+    data['sharpe'] = list(sharpe.values[0])
+    data['historic'] = (historic)
+    return render(request, 'assessor.html', data)

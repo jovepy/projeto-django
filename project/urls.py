@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from app.views import home
+from app.views import home, assessor
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home),
+    path('assessor_digital/', assessor)
 ]
